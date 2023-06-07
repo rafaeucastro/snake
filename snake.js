@@ -1,5 +1,7 @@
 // Tamanho do jogo
-const BOARD_SIZE = 20;
+//const BOARD_SIZE = document.getElementById('game-board').style.width / 20;
+const BOARD_WIDTH = window.innerWidth / 25;
+const BOARD_HEIGHT = window.innerHeight / 25;
 const TILE_SIZE = 20;
 
 // Elementos do jogo
@@ -11,7 +13,7 @@ let dx = 0;
 let dy = 0;
 let score = 0;
 let level = 1;
-var speed = 100;
+var speed = 150;
 
 let obstacles = [];
 let numberOfObstacles = 1;
@@ -20,6 +22,8 @@ let maxObstacleWidth = 0;
 
 // Funções
 function startGame() {
+  console.log(window.innerHeight);
+  console.log(window.innerWidth);
   gameBoard = document.getElementById("game-board");
   document.addEventListener("keydown", changeDirection);
   gameLoop = setInterval(updateGame, speed);
@@ -53,8 +57,8 @@ function generateObstacles(){
 
   for(let i = 0; i < numberOfObstacles; i++) {
     const obstacle = {
-      x: Math.floor(Math.random() * BOARD_SIZE),
-      y: Math.floor(Math.random() * BOARD_SIZE),
+      x: Math.floor(Math.random() * BOARD_WIDTH),
+      y: Math.floor(Math.random() * BOARD_HEIGHT),
       width: Math.floor(Math.random() * maxObstacleWidth) + 1,
       height: Math.floor(Math.random() * maxObstacleHeight) + 1,
     };
@@ -174,9 +178,9 @@ function checkCollision() {
   if (
     //verificar colisão da cabeça da cobra com os limites do tabuleiro
     head.x < 0 ||
-    head.x >= BOARD_SIZE ||
+    head.x >= BOARD_WIDTH ||
     head.y < 0 ||
-    head.y >= BOARD_SIZE ||
+    head.y >= BOARD_HEIGHT ||
     //verificar colisão entre a cabeça e o corpo da própria cobra
     snake.slice(1).some((part) => part.x === head.x && part.y === head.y) ||
     //verificar colisão da cabeça da cobra com um obstáculo
@@ -220,8 +224,8 @@ function drawFood() {
 }
 
 function generateFood() {
-  food.x = Math.floor(Math.random() * BOARD_SIZE);
-  food.y = Math.floor(Math.random() * BOARD_SIZE);
+  food.x = Math.floor(Math.random() * BOARD_WIDTH);
+  food.y = Math.floor(Math.random() * BOARD_HEIGHT);
 
   if (snake.some((part) => part.x === food.x && part.y === food.y)) {
     generateFood();
